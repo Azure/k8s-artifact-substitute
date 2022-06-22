@@ -1,0 +1,56 @@
+name: Integration Tests
+on:
+  pull_request:
+    branches:
+      - main
+      - "releases/*"
+  push:
+    branches:
+      - main
+      - "releases/*"
+  workflow_dispatch:
+
+jobs:
+  run-integration-test:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+    env:
+      KUBECONFIG: /home/runner/.kube/config
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          rm -rf node_modules/
+          npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Execute artifact-substitute action
+        uses: ./
+        with:
+          images: |
+            nginx:custom-tag
+            contoso:latest
+          manifests: |
+            test/integration/manifests/
+        id: artifact-sub
+
+      - name: Ensure output matches expected
+        uses: OliverMKing/yaml-compare@v2
+        with:
+          file1Path: ${{ steps.artifact-sub.outputs.directory }}/test-ingress.yml
+          file2Path: test/integration/expected/test-ingress.yml
+
+      - name: Ensure output matches expected
+        uses: OliverMKing/yaml-compare@v2
+        with:
+          file1Path: ${{ steps.artifact-sub.outputs.directory }}/test-service.yml
+          file2Path: test/integration/expected/test-service.yml
+
+      - name: Ensure output matches expected
+        uses: OliverMKing/yaml-compare@v2
+        with:
+          file1Path: ${{ steps.artifact-sub.outputs.directory }}/nested-test-ingress.yaml
+          file2Path: test/integration/expected/nested/nested-test-ingress.yaml

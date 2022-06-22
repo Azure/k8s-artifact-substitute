@@ -1,0 +1,19 @@
+name: "Kubernetes Artifact Substitue"
+description: "Swap images/digests in Kubernetes manifest files"
+inputs:
+  manifests:
+    description: "Path to the manifest files which will be used for deployment."
+    required: true
+  images:
+    description: "Fully qualified resource URL of the image(s) to be used for substitutions on the manifest files Example: contosodemo.azurecr.io/helloworld:test"
+    required: true
+outputs:
+  manifests:
+    description: Paths to the new manifests as a multiline string. Each manifest path is on a new line.
+  directory:
+    description: Path to the new manifests directory. All new manifests are in the root-level.
+branding:
+  color: "green"
+runs:
+  using: "node16"
+  main: "lib/index.js"
