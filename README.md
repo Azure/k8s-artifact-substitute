@@ -1,4 +1,4 @@
-# K8s Artifact Substitue
+# K8s Artifact Substitute
 
 This action is used to update the tag or digest for container images. New tags / digests are substituted into the non-templatized version of manifest files to ensure that the right version of the image is used by manifests.
 
