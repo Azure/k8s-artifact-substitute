@@ -4,4 +4,4 @@
 
 ### Changed
 
--  #15 Updated README to remove uneeded quoates around image names, upgrade to node20
+-  #15 Updated README to remove uneeded quotes around image names, upgrade to node20
