@@ -53,8 +53,8 @@ The new manifests are placed in a new folder. All manifests supplied are placed 
       dir/manifestsDirectory
       dir/manifest.yaml
     images: |
-      "contoso.azurecr.io/myapp:${{ event.run_id }}"
-      "contoso.azurecr.io/myapp2:${{ event.run_id }}"
+      contoso.azurecr.io/myapp:${{ event.run_id }}
+      contoso.azurecr.io/myapp2:${{ event.run_id }}
 ```
 
 In this example, `k8s-artifact-substitute` will change all references to `contoso.azurecr.io/myapp` and `contoso.azurecr.io/myapp2` to use the event.run_id as the tag.
